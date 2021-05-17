@@ -1,32 +1,32 @@
 import React from'react';
 import axios from'axios';
-import ListGroup from 'react-bootstrap/ListGroup'
+import {useState, useEffect} from 'react';
+import ListGroup from 'react-bootstrap/ListGroup';
 
+const UserList = () => {
+  const [data, setData] = useState([]);
+  
+  useEffect(() => {
+    axios
+    .get('https://jsonplaceholder.typicode.com/users')
+    .then(res => setData(res.data))
+    .catch(err => {console.log(err)});
 
-
-export default class UserList extends React.Component{
-state={
-  users:[],
-}
-componentDidMount(){
-  axios.get('https://jsonplaceholder.typicode.com/users')
-  .then(res=>{
-    console.log(res);
-    this.setState({users:res.data});
-  });
-}
-
-render (){
+    
+  }, []);
   return (
     <ListGroup>
  
- {this.state.users.map(user=><ListGroup.Item className="item" >{user.name}</ListGroup.Item>)}
+ {data.map(user=><ListGroup.Item className="item" key={user.id}>{user.name} </ListGroup.Item>)}
   
 </ListGroup>
   
   )
 }
-}
+ 
+ export default UserList;
+
+
 
 
 
